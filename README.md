@@ -25,3 +25,11 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result and enjoy.
 
+Ensure you are also using the latest version of node:
+
+```bash
+# with node version manager
+nvm use --lts
+```
+
+
