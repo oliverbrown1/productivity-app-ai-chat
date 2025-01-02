@@ -43,6 +43,7 @@ export default function Page(){
 
   // add task function passed onto modal
   async function addTask(task){
+    console.log(task)
     const record = await pb.collection("Tasks").create({
       title: task.name,
       description: task.desc,

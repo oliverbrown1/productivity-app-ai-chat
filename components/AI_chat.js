@@ -8,6 +8,7 @@ export default function AI_chat({visible, onClose, addTask}){
 
     const [queryValue, setQueryValue] = useState("");
     const [chatMessages, setChatMessages] = useState([])
+    const [subtasks, setSubtasks] = useState([]);
 
     const saveQuery = (e) => {
         setQueryValue(e.target.value);
@@ -16,6 +17,15 @@ export default function AI_chat({visible, onClose, addTask}){
     if(!visible){
         return null;
     }
+
+
+    const handleInputChange = (index, field, value) => {
+        setSubtasks((prevSubtasks) =>
+            prevSubtasks.map((subtask, i) =>
+                i === index ? { ...subtask, [field]: value } : subtask
+            )
+        );
+    };
 
     async function parseResponse(response){
         const split_index = response.indexOf("[");
@@ -48,7 +58,6 @@ export default function AI_chat({visible, onClose, addTask}){
     
         const handleInputChange = (e) => {
             e.target.value = e.target.value;
-            // const { name, value } = e.target;
 
         };
 
@@ -109,6 +118,8 @@ export default function AI_chat({visible, onClose, addTask}){
             console.log(error)
         }
 
+        setSubtasks(subtasks);
+
         const response_div = (
             <div>
                 {response_text}
@@ -128,28 +139,28 @@ export default function AI_chat({visible, onClose, addTask}){
                             <form action={addTask} className="flex flex-col gap-3"> 
                                 <div className="flex flex-col">
                                 <label className="text-slate-800">Title</label>
-                                <input className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="title" onChange={handleInputChange} value={subtask.title} required/>
+                                <input className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="name" onChange={(e) =>handleInputChange(index, "title", e.target.value)} value={subtask.title} required/>
                                 </div>
                                 <div className="flex flex-col">
                                 <label className="text-slate-800">Description</label>
-                                <textarea className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline h-20" type="text" onChange={handleInputChange}  value={subtask.description} name="desc" required/>
+                                <textarea className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline h-20" type="text" onChange={(e) =>handleInputChange(index, "desc", e.target.value)}  value={subtask.description} name="desc" required/>
                                 </div>
                                 <div className="flex flex-row justify-between mb-3 w-[575px]"> 
                                     <div className="flex flex-col items-center justify-center">
                                         <label className="text-slate-800 text-s">Hours</label>
-                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="hours" onChange={handleInputChange} value={subtask.hours}/>
+                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="hours" onChange={(e) =>handleInputChange(index, "hours", e.target.value)}  value={subtask.hours}/>
                                     </div>
                                     <div className="flex flex-col items-center justify-center">
                                         <label className="text-slate-800 text-s">Minutes</label>
-                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="minutes" onChange={handleInputChange} value={subtask.minutes}/>
+                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="minutes" onChange={(e) =>handleInputChange(index, "minutes", e.target.value)}  value={subtask.minutes}/>
                                     </div>
                                     <div className="flex flex-col items-center justify-center">
                                         <label className="text-slate-800 text-s">Seconds</label>
-                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="seconds" onChange={handleInputChange} value={subtask.seconds}/>
+                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="seconds" onChange={(e) =>handleInputChange(index, "seconds", e.target.value)}  value={subtask.seconds}/>
                                     </div>
                                 </div>
                                 <div className="flex flex-row justify-center ">
-                                    <button className="mr-5" type="submit">Review Task</button>
+                                    <button className="mr-5" type="submit">Add Task</button>
                                 </div>
                             </form> 
                         </div>
@@ -218,7 +229,6 @@ export default function AI_chat({visible, onClose, addTask}){
         }`}>{message.div}</div>
 
 
-        // token = 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
         // const client = new HfInference("hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
         // const chatCompletion = await client.chatCompletion({
