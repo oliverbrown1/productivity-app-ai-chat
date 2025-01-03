@@ -1,14 +1,12 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import React, { useState } from "react";
-import { createCipheriv } from 'crypto';
-import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import AI_response_format from "./AI_response_format.js"
 
 export default function AI_chat({visible, onClose, addTask}){
 
     const [queryValue, setQueryValue] = useState("");
     const [chatMessages, setChatMessages] = useState([])
-    const [subtasks, setSubtasks] = useState([]);
 
     const saveQuery = (e) => {
         setQueryValue(e.target.value);
@@ -17,15 +15,6 @@ export default function AI_chat({visible, onClose, addTask}){
     if(!visible){
         return null;
     }
-
-
-    const handleInputChange = (index, field, value) => {
-        setSubtasks((prevSubtasks) =>
-            prevSubtasks.map((subtask, i) =>
-                i === index ? { ...subtask, [field]: value } : subtask
-            )
-        );
-    };
 
     async function parseResponse(response){
         const split_index = response.indexOf("[");
@@ -51,17 +40,20 @@ export default function AI_chat({visible, onClose, addTask}){
             throw new Error("Failed to parse JSON subtasks.");
         }
     }
+
+    async function processTask(data){
+        addTask(data)
+
+    }
     
 
     // calculate 
-    async function handleForm(){
-    
-        const handleInputChange = (e) => {
-            e.target.value = e.target.value;
+    async function handleForm(e){
+        e.preventDefault()
 
-        };
 
         var query = queryValue
+        setQueryValue("")
 
         const queryDiv = (
             <div>
@@ -118,8 +110,6 @@ export default function AI_chat({visible, onClose, addTask}){
             console.log(error)
         }
 
-        setSubtasks(subtasks);
-
         const response_div = (
             <div>
                 {response_text}
@@ -131,83 +121,13 @@ export default function AI_chat({visible, onClose, addTask}){
         ]);
 
         if(subtasks.length > 0){
-            const subtasks_div = (
-                <Carousel key={`subtasks-${subtasks.length}`} showThumbs={false} infiniteLoop>
-                    {subtasks.map((subtask, index) => (
-                    <div key={`subtask-${index}`} className="mb-8">
-                        <div className="flex flex-col">
-                            <form action={addTask} className="flex flex-col gap-3"> 
-                                <div className="flex flex-col">
-                                <label className="text-slate-800">Title</label>
-                                <input className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="name" onChange={(e) =>handleInputChange(index, "title", e.target.value)} value={subtask.title} required/>
-                                </div>
-                                <div className="flex flex-col">
-                                <label className="text-slate-800">Description</label>
-                                <textarea className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline h-20" type="text" onChange={(e) =>handleInputChange(index, "desc", e.target.value)}  value={subtask.description} name="desc" required/>
-                                </div>
-                                <div className="flex flex-row justify-between mb-3 w-[575px]"> 
-                                    <div className="flex flex-col items-center justify-center">
-                                        <label className="text-slate-800 text-s">Hours</label>
-                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="hours" onChange={(e) =>handleInputChange(index, "hours", e.target.value)}  value={subtask.hours}/>
-                                    </div>
-                                    <div className="flex flex-col items-center justify-center">
-                                        <label className="text-slate-800 text-s">Minutes</label>
-                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="minutes" onChange={(e) =>handleInputChange(index, "minutes", e.target.value)}  value={subtask.minutes}/>
-                                    </div>
-                                    <div className="flex flex-col items-center justify-center">
-                                        <label className="text-slate-800 text-s">Seconds</label>
-                                        <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="seconds" onChange={(e) =>handleInputChange(index, "seconds", e.target.value)}  value={subtask.seconds}/>
-                                    </div>
-                                </div>
-                                <div className="flex flex-row justify-center ">
-                                    <button className="mr-5" type="submit">Add Task</button>
-                                </div>
-                            </form> 
-                        </div>
-                    </div>
-                    ))}
-                </Carousel>
-                // <div key={`subtasks-${subtasks.length}`}>
-                //     {subtasks.map((subtask, index) => (
-                //     <div className='mb-2'>
-                //         <div className="flex flex-col">
-                //                 <h2 className="text-center text-xl mb-2">Create new task</h2>
-                //                 <form className="flex flex-col gap-3"> 
-                //                     <div className="flex flex-col">
-                //                     <label className="text-slate-800">Title</label>
-                //                     <input className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="name" value={subtask.title} required/>
-                //                     </div>
-                //                     <div className="flex flex-col">
-                //                     <label className="text-slate-800">Description</label>
-                //                     <textarea className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline h-20" type="text" value={subtask.description} name="desc" required/>
-                //                     </div>
-                //                     <div className="flex flex-row justify-between mb-3 w-[575px]"> 
-                //                         <div className="flex flex-col">
-                //                             <label className="text-slate-800 text-s">Hours</label>
-                //                             <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="hours" value={subtask.hours}/>
-                //                         </div>
-                //                         <div className="flex flex-col">
-                //                             <label className="text-slate-800 text-s">Minutes</label>
-                //                             <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="minutes" value={subtask.minutes}/>
-                //                         </div>
-                //                         <div className="flex flex-col">
-                //                             <label className="text-slate-800 text-s">Seconds</label>
-                //                             <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="seconds" value={subtask.seconds}/>
-                //                         </div>
-                //                     </div>
-                //                     <div className="flex flex-row justify-center ">
-                //                         <button className="mr-5" type="submit">Review Task</button>
-                //                     </div>
-                //                 </form> 
-                //             </div>
-                //     </div>
-                //     ))}
-                // </div>
-            );
+            const carousel_div = (
+                <AI_response_format visible={visible} subtasks={subtasks} addTask={addTask} />
+            )
 
             setChatMessages((prev) => [
                 ...prev,
-                {type: "AI", div: subtasks_div}
+                {type: "AI", div: carousel_div}
             ]);
         }
 
@@ -222,27 +142,12 @@ export default function AI_chat({visible, onClose, addTask}){
     const messages = chatMessages.map((message, index) => 
         <div 
         key={index}
-        className={`p-3 m-1 w-1/2 text-sm bg-white rounded-lg ${
+        className={`p-3 m-1 max-w-[50%] text-sm bg-white rounded-lg w-fit break-words ${
         message.type === "user"
             ? "self-end text-end"
             : "self-start text-start"
         }`}>{message.div}</div>
 
-
-        // const client = new HfInference("hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-
-        // const chatCompletion = await client.chatCompletion({
-        //     model: "meta-llama/Llama-3.3-70B-Instruct",
-        //     messages: [
-        //         {
-        //             role: "user",
-        //             content: "What is the capital of France?"
-        //         }
-        //     ],
-        //     max_tokens: 500
-        // });
-
-        // console.log(chatCompletion.choices[0].message);
     );
     
     // form to create new task in modal
@@ -250,25 +155,27 @@ export default function AI_chat({visible, onClose, addTask}){
         <div className="fixed inset-0 top-[50px] bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center m-10">
             <div className="w-full h-full flex flex-col justify-center items-center">
                 <div className="relative bg-gray-200 p-10 shadow-xl w-full h-full flex flex-col">
+                <h2 className="text-center text-xl mb-2 font-bold text-slate-800">AI Assistant Chat</h2>
                     <div className="flex-grow flex flex-col gap-3 bg-slate-100 rounded border-slate-200 overflow-y-auto p-4">
                         {/* chat container */}
                         {messages}
                     </div>
                     <form 
-                        action={handleForm} 
+                        onSubmit={(e) => {handleForm(e); }}
                         className="bg-white flex items-center w-full mt-4 border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <TextareaAutosize 
+                            value={queryValue}
                             onChange={saveQuery} 
                             maxRows={6} 
                             className="flex-grow w-full border-none resize-none focus:outline-none"/>
-                        <button className="ml-3" type="submit">Chat</button>
+                        <button className="ml-3 p-2 rounded-lg bg-gray-300 hover:bg-gray-400" type="submit">Chat</button>
                     </form>
                     <button 
-                        data-modal-hide="default-modal" 
+                        data-modal-hide="default-modal"
                         type="button" 
                         onClick={onClose} 
                         className="mt-4 self-center bg-gray-300 hover:bg-gray-400 rounded px-4 py-2">
-                        Cancel
+                        Close Chat
                     </button>
                 </div>
             </div>
