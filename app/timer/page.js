@@ -1,8 +1,9 @@
 'use client'
-import Link from 'next/link'
-import { useEffect } from 'react'
+import Link from 'next/link';
+import { useEffect } from 'react';
 import { useState } from "react";
-import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import { React } from "react";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import PocketBase from 'pocketbase';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
@@ -22,7 +23,7 @@ export default function Page({searchParams}){
     }
 
     // use effect hook to do this only once on page loadup (not on refresh)
-    const taskid = searchParams.taskid;
+    const taskid = searchParams.taskid
     useEffect(() => {
         getTaskData(taskid);
     }, []);

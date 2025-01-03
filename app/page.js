@@ -69,6 +69,7 @@ export default function Page(){
 
     // calculate time in seconds given the fields to get time in seconds, and add data to DB
   function handleForm(data){
+        console.log("hi")
         const task_name = data.get("name");
         const task_desc = data.get("desc");
         

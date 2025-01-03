@@ -8,14 +8,13 @@ export async function POST(request:Request){
     const r_body = await request.json()
     console.log("test")
 
-    if(!process.env.HUGGING_FACE_API_KEY){
-        throw new Error("Missing Hugging Face API key");
+    if(!process.env.GROQ_API_KEY){
+        throw new Error("Missing GROQ_API_KEY in environment. Please create an $env.local file, and create a GROQ_API_KEY variable with the value of your api key.");
         return null
     }
 
     const query = r_body.input;
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-    const client = new HfInference(process.env.HUGGING_FACE_API_KEY);
     const system_prompt = 'You are a friendly and helpful assistant that helps users break down tasks into subtasks and add them into the application. '+
     'If the user wants to add a task or break down a problem, suggest 1-5 subtasks (depending on the complexity of the task) that meet the requirements of the task.'+
     'Only suggest subtasks if the user mentions wanting to add or breakdown a task, otherwise respond normally if the question is appropriate. '+
@@ -27,7 +26,7 @@ export async function POST(request:Request){
     '- An estimated time, split into hours, minutes and seconds respectively.\n'+
     'Please include a JSON structured format for the subtasks you suggest in an array:\n'+
     '[{"title" : "subtask title", "description": "Brief explanation of the subtask.", "hours": hours required, "minutes" : minutes required, "seconds" : seconds required}]\n'+
-    'The JSON structured format should be at the end of your response. Ensure to only include newline characters in your response as well.'
+    'The JSON structured format should be at the end of your response. Only include this JSON format in your response if you have subtasks to return.'
 
     async function getGroqChatCompletion(query: string) {
         return groq.chat.completions.create({
