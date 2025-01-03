@@ -1,11 +1,12 @@
 ## Overview
 
-This is my full-stack web application project made using Next.js and React. 
+This is my full-stack web application project made using Next.js and React.
 
 The application I have made is a productivity task managing website, with the following features:
+  - A built-in AI assistant that can break down tasks into sub-tasks, and generate those sub-tasks for the user.
   - the user can manage a list of tasks that are stored in a backend database using PocketBase
   - the user can start tasks in the application and a timer will show up as a countdown for the tasks, with the main idea of allowing users to focus while the timer is running in the background
-  - tasks can be stopped and resumed at a later time, and changes will be stored in the database.
+  - tasks can be stopped and resumed at a later time, and changes will be stored in a backend database.
 
 ## Setup/Tutorial
 
@@ -40,7 +41,7 @@ nvm use --lts
 
 To get the AI chat to work correctly, please visit [https://console.groq.com/keys](https://console.groq.com/keys) and sign up and generate an API key (all free!). 
 
-Create a file called ```$env.local ``` and create the following environment variable:
+Create a file called ```.env.local``` and create the following environment variable:
 
 ```GROQ_API_KEY="[YOUR API KEY]"```
 
