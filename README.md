@@ -4,9 +4,15 @@ This is my full-stack web application project made using Next.js and React.
 
 The application I have made is a productivity task managing website, with the following features:
   - A built-in AI assistant that can break down tasks into sub-tasks, and generate those sub-tasks for the user.
-  - the user can manage a list of tasks that are stored in a backend database using PocketBase
-  - the user can start tasks in the application and a timer will show up as a countdown for the tasks, with the main idea of allowing users to focus while the timer is running in the background
-  - tasks can be stopped and resumed at a later time, and changes will be stored in a backend database.
+  - The user can manage a list of tasks that are stored in a backend database using PocketBase.
+  - The user can start tasks in the application and a timer will show up as a countdown for the tasks, with the main idea of allowing users to focus while the timer is running in the background.
+  - Tasks can be stopped and resumed at a later time, and changes will be stored in a backend database.
+
+
+A preview of the AI assistant is shown below:
+
+<img src="https://github.com/oliverbrown1/ReactTaskManager/blob/main/react-task-manager-gif.gif" width="960" height="540" />
+
 
 ## Setup/Tutorial
 
