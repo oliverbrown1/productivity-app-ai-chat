@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Tasklist from "./tasklist.js"
-import Modal from "../components/Modal.js"
-import AI_chat from "../components/AI_chat.js"
+import Modal from "./components/Modal.js"
+import AI_chat from "./components/AI_chat.js"
 import PocketBase from 'pocketbase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faWandMagicSparkles } from '@fortawesome/free-solid-svg-icons'
