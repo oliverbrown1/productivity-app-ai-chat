@@ -80,7 +80,8 @@ export default function Task({visible, onClose, editTask, deleteTask, task}){
                                 <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="seconds" defaultValue={seconds} placeholder="0"/>
                             </div>
                         </div>
-                        <div className="flex justify-center -mb-4">
+                        {/* timer feature not working for now -> countdown circle is outdated */}
+                        {/* <div className="flex justify-center -mb-4">
                             <Link 
                                 href={{pathname: '/timer',
                                     query: {taskid : task.id}}}
@@ -88,7 +89,7 @@ export default function Task({visible, onClose, editTask, deleteTask, task}){
                             >
                                 Start Task
                             </Link>
-                        </div>
+                        </div> */}
                         <div className="flex justify-between items-center w-full absolute bottom-0 left-0 right-0">
                             <button 
                                 className="w-1/3 px-4 py-6 bg-blue-400 text-sm text-white hover:bg-blue-600 transition-colors h-full"
