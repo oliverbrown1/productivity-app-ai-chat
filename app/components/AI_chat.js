@@ -138,6 +138,11 @@ export default function AI_chat({visible, onClose, addTask}){
             );
 
             // Update the last message with the actual response
+            // setChatMessages((prev) => {
+            //     const temp = [...prev];
+            //     temp[temp.length - 1] = {type: "AI", div: response_div};
+            //     return temp;
+            // });
             setChatMessages((prev) => {
                 const newMessages = [...prev]
                 newMessages[newMessages.length - 1] = {type: "AI", div: response_div}

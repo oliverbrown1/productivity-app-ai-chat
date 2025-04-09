@@ -10,7 +10,7 @@ export default function Tasklist({deleteTask, editTask, fetchData, tasks}){
 
     // no tasks
     if(!tasks.length){
-        return <div className="relative text-center">No tasks available</div>;
+        return <div className="relative text-center text-black">No tasks available</div>;
     }
     // maps each task into a <li> to be displayed accordingly in the <ul>
     const task_list = tasks.map(task => 
