@@ -37,11 +37,11 @@ export default function Modal({visible, onClose, addTask}){
     
     // form to create new task in modal
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
+        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center text-black">
             <div className="w-[600px] flex flex-col">
                 <div className="relative mt-5 top-1/2 bg-gray-200 p-10 shadow-xl">
                     <h2 className="text-center text-xl mb-2">Create new task</h2>
-                    <form action={addTask} className="flex flex-col gap-3"> 
+                    <form action={addTask} className="flex flex-col gap-3 mb-16"> 
                         <div className="flex flex-col">
                         <label className="text-slate-800">Title</label>
                         <input className="hover:bg-slate-200 p-2 m-3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="name" placeholder="What do you need to do?" required/>
@@ -64,9 +64,21 @@ export default function Modal({visible, onClose, addTask}){
                                 <input className="hover:bg-slate-200 p-2 mt-3 rm-2 w-2/3 border-slate-200 bg-slate-100 rounded focus:shadow-outline" type="text" name="seconds" placeholder="0"/>
                             </div>
                         </div>
-                        <div className="flex flex-row justify-center ">
-                            <button className="mr-5" type="submit">Add Task</button>
-                            <button data-modal-hide="default-modal" type="submit" onClick={onClose}>Cancel</button>
+                        <div className="flex justify-between items-center w-full absolute bottom-0 left-0 right-0 mt-">
+                            <button 
+                                className="w-1/2 px-4 py-6 bg-blue-400 text-sm text-white hover:bg-blue-600 transition-colors h-full"
+                                type="submit"
+                            >
+                                Add Task
+                            </button>
+                            <button 
+                                data-modal-hide="default-modal"
+                                type="submit"
+                                className="w-1/2 px-4 py-6 bg-gray-400 text-sm text-white hover:bg-gray-600 transition-colors h-full"
+                                onClick={onClose}
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </form> 
                 </div>

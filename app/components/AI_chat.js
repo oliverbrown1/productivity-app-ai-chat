@@ -1,5 +1,5 @@
 import TextareaAutosize from 'react-textarea-autosize';
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import AI_response_format from "./AI_response_format.js"
 
@@ -7,6 +7,20 @@ export default function AI_chat({visible, onClose, addTask}){
 
     const [queryValue, setQueryValue] = useState("");
     const [chatMessages, setChatMessages] = useState([])
+
+    useEffect(() => {
+        const queryDiv = (
+            <div>
+                Hi there, I am a friendly AI Assistant that can break tasks down for you!
+            </div>
+        );
+
+        // var AI_response = getAIResponse(query)
+        setChatMessages((prev) => [
+            ...prev,
+            {type: "AI", div: queryDiv}
+        ]);
+    }, [])
 
     const saveQuery = (e) => {
         setQueryValue(e.target.value);
@@ -61,10 +75,17 @@ export default function AI_chat({visible, onClose, addTask}){
             </div>
         );
 
-        // var AI_response = getAIResponse(query)
+        // Add loading message
+        const loadingDiv = (
+            <div className="flex items-center gap-2">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+            </div>
+        );
+
         setChatMessages((prev) => [
             ...prev,
-            {type: "user", div: queryDiv}
+            {type: "user", div: queryDiv},
+            {type: "AI", div: loadingDiv}
         ]);
 
         // onClose();
@@ -100,36 +121,39 @@ export default function AI_chat({visible, onClose, addTask}){
         } catch (error) {
             console.log(error);
         }
-        
-        var response_text = ""
-        var subtasks = []
+
+            var response_text = ""
+            var subtasks = []
         try{
-            ({ response_text, subtasks } = await parseResponse(response));
+                ({ response_text, subtasks } = await parseResponse(response));
         }
         catch(error){
-            console.log(error)
-        }
+                console.log(error)
+            }
 
-        const response_div = (
-            <div>
-                {response_text}
-            </div>
-        );
-        setChatMessages((prev) => [
-            ...prev,
-            {type: "AI", div: response_div}
-        ]);
+            const response_div = (
+                <div>
+                    {response_text}
+                </div>
+            );
 
-        if(subtasks.length > 0){
-            const carousel_div = (
-                <AI_response_format visible={visible} subtasks={subtasks} addTask={addTask} />
-            )
+            // Update the last message with the actual response
+            setChatMessages((prev) => {
+                const newMessages = [...prev]
+                newMessages[newMessages.length - 1] = {type: "AI", div: response_div}
+                return newMessages
+            });
 
-            setChatMessages((prev) => [
-                ...prev,
-                {type: "AI", div: carousel_div}
-            ]);
-        }
+            if(subtasks.length > 0){
+                const carousel_div = (
+                    <AI_response_format visible={visible} subtasks={subtasks} addTask={addTask} />
+                )
+
+                setChatMessages((prev) => [
+                    ...prev,
+                    {type: "AI", div: carousel_div}
+                ]);
+            }
 
 
     }
@@ -139,26 +163,38 @@ export default function AI_chat({visible, onClose, addTask}){
     }
 
 
-    const messages = chatMessages.map((message, index) => 
+    const messages = chatMessages.map((message, index) => (
         <div 
-        key={index}
-        className={`p-3 m-1 max-w-[50%] text-sm bg-white rounded-lg w-fit break-words ${
-        message.type === "user"
-            ? "self-end text-end"
-            : "self-start text-start"
-        }`}>{message.div}</div>
-
-    );
+            key={index}
+            className={`flex ${
+                message.type === "user"
+                    ? "justify-end"
+                    : "justify-start"
+            }`}
+        >
+            <div 
+                className={`max-w-[70%] rounded-lg p-3 ${
+                    message.type === "user"
+                        ? "bg-blue-500 text-white"
+                        : "bg-slate-200 text-slate-800"
+                }`}
+            >
+                {message.div}
+            </div>
+        </div>
+    ));
     
     // form to create new task in modal
     return (
-        <div className="fixed inset-0 top-[50px] bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center m-10">
-            <div className="w-full h-full flex flex-col justify-center items-center">
-                <div className="relative bg-gray-200 p-10 shadow-xl w-full h-full flex flex-col">
-                <h2 className="text-center text-xl mb-2 font-bold text-slate-800">AI Assistant Chat</h2>
-                    <div className="flex-grow flex flex-col gap-3 bg-slate-100 rounded border-slate-200 overflow-y-auto p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center text-black">
+            <div className="w-full h-3/4 flex flex-col justify-center items-center">
+                <div className="relative w-3/4 bg-gray-200 p-10 shadow-xl h-full flex flex-col">
+                <h2 className="text-center text-xl mb-2 font-bold text-slate-800">Task Manager Assistant</h2>
+                    <div className="flex-grow flex flex-col gap-4 bg-slate-50 rounded-xl border border-slate-200 overflow-y-auto p-6">
                         {/* chat container */}
-                        {messages}
+                        <div className="flex flex-col gap-4">
+                            {messages}
+                        </div>
                     </div>
                     <form 
                         onSubmit={(e) => {handleForm(e); }}
@@ -167,14 +203,14 @@ export default function AI_chat({visible, onClose, addTask}){
                             value={queryValue}
                             onChange={saveQuery} 
                             maxRows={6} 
-                            className="flex-grow w-full border-none resize-none focus:outline-none"/>
-                        <button className="ml-3 p-2 rounded-lg bg-gray-300 hover:bg-gray-400" type="submit">Chat</button>
+                            className="flex-grow w-full order-none resize-none focus:outline-none"/>
+                        <button className="ml-3 p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white" type="submit">Chat</button>
                     </form>
                     <button 
                         data-modal-hide="default-modal"
                         type="button" 
                         onClick={onClose} 
-                        className="mt-4 self-center bg-gray-300 hover:bg-gray-400 rounded px-4 py-2">
+                        className="mt-4 w-full left-0 right-0 bottom-0 self-center bg-gray-300 hover:bg-gray-400 rounded py-4">
                         Close Chat
                     </button>
                 </div>
@@ -183,4 +219,3 @@ export default function AI_chat({visible, onClose, addTask}){
 
     )
   }
-  
