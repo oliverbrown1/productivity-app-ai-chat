@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/tasklist.js"
-  ],
+, "app/layout.js"  ],
   "exclude": [
     "node_modules"
   ]
