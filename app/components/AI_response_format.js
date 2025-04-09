@@ -60,7 +60,7 @@ export default function AI_response_format({visible, subtasks, addTask}){
                                 <div className="flex flex-col">
                                     <label className="text-slate-800 font-medium mb-1">Title</label>
                                     <input 
-                                        className="hover:bg-slate-50 p-3 text-lg border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
+                                        className="hover:bg-slate-50 p-3 text-lg bg-slate-200 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
                                         type="text" 
                                         name="name"  
                                         defaultValue={subtask.title} 
@@ -70,17 +70,17 @@ export default function AI_response_format({visible, subtasks, addTask}){
                                 <div className="flex flex-col">
                                     <label className="text-slate-800 font-medium mb-1">Description</label>
                                     <textarea 
-                                        className="hover:bg-slate-50 p-3 text-lg border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full h-24" 
+                                        className="hover:bg-slate-50 p-3 text-lg bg-slate-200 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full h-24" 
                                         name="desc" 
                                         defaultValue={subtask.description} 
                                         required
                                     />
                                 </div>
-                                <div className="flex flex-row justify-between w-full">
+                                <div className="flex flex-row justify-between gap-3 w-full">
                                     <div className="flex flex-col items-center justify-center w-1/3">
                                         <label className="text-slate-800 text-sm font-medium">Hours</label>
                                         <input 
-                                            className="hover:bg-slate-50 p-3 text-lg border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
+                                            className="hover:bg-slate-50 p-3 text-lg bg-slate-200 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
                                             type="text" 
                                             name="hours" 
                                             defaultValue={subtask.hours}
@@ -89,7 +89,7 @@ export default function AI_response_format({visible, subtasks, addTask}){
                                     <div className="flex flex-col items-center justify-center w-1/3">
                                         <label className="text-slate-800 text-sm font-medium">Minutes</label>
                                         <input 
-                                            className="hover:bg-slate-50 p-3 text-lg border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
+                                            className="hover:bg-slate-50 p-3 text-lg bg-slate-200 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
                                             type="text" 
                                             name="minutes" 
                                             defaultValue={subtask.minutes}
@@ -98,7 +98,7 @@ export default function AI_response_format({visible, subtasks, addTask}){
                                     <div className="flex flex-col items-center justify-center w-1/3">
                                         <label className="text-slate-800 text-sm font-medium">Seconds</label>
                                         <input 
-                                            className="hover:bg-slate-50 p-3 text-lg border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
+                                            className="hover:bg-slate-50 p-3 text-lg bg-slate-200 border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full" 
                                             type="text" 
                                             name="seconds" 
                                             defaultValue={subtask.seconds}

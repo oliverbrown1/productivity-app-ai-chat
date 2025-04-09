@@ -11,7 +11,7 @@ The application I have made is a productivity task managing website, with the fo
 
 A preview of the AI assistant is shown below:
 
-<img src="https://github.com/oliverbrown1/ReactTaskManager/blob/main/assets/react-task-manager-gif.gif" width="960" height="540" />
+<img src="https://github.com/oliverbrown1/ReactTaskManager/blob/main/assets/readme.gif" width="960" height="540" />
 
 
 ## Setup/Tutorial
